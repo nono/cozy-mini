@@ -3,11 +3,16 @@
   <head>
     <meta charset="utf-8" />
     <title>Mini app for cozy-stack-v2</title>
+    <link rel="stylesheet" href="leaflet.css">
+    <script src="leaflet.js"></script>
   </head>
   <body>
     <div role="application" data-token="{{.Token}}" data-cozy-stack="{{.Domain}}">
       <h1>A mini app to test cozy-stack-v2</h1>
       <img src="happycloud.png" alt="Cozy logo" />
+      <div id="maposm" class="map"></div>
+      <div id="mapbox" class="map"></div>
     </div>
+    <script src="load.js"></script>
   </body>
 </html>
