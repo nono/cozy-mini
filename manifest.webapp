@@ -6,7 +6,11 @@
   },
   "license": "MIT",
   "name": "mini-app",
-  "permissions": {},
+  "permissions": {
+    "files": {
+      "type": "io.cozy.files"
+	}
+  },
   "slug": "mini",
   "version": "0.1.0"
 }
