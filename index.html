@@ -2,12 +2,12 @@
 <html lang="{{.Locale}}">
   <head>
     <meta charset="utf-8" />
-    <title>Mini app for cozy-stack-v2</title>
+    <title>Mini (fulltext)</title>
+    <link rel="stylesheet" href="assets/style.css" />
   </head>
   <body>
-    <div role="application" data-token="{{.Token}}" data-cozy-stack="{{.Domain}}">
-      <h1>A mini app to test cozy-stack-v2</h1>
-      <img src="happycloud.png" alt="Cozy logo" />
-    </div>
+    <div role="application" data-token="{{.Token}}" data-cozy-stack="{{.Domain}}"></div>
+    <script src="assets/elm.js"></script>
+    <script src="assets/init.js"></script>
   </body>
 </html>
