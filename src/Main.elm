@@ -1,7 +1,7 @@
 module Main exposing (..)
 
-import Html exposing (Html, text, h1)
-import Html.Attributes exposing (src)
+import Html exposing (Html, text, div, h1, strong, input)
+import Html.Attributes exposing (class)
 
 
 ---- MODEL ----
@@ -35,7 +35,15 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    h1 [] [ text "Your Elm App is working!" ]
+    div [ class "container" ]
+        [ div [ class "bar" ]
+            [ h1 [] [ text "Cozy ", strong [] [ text "Search" ] ]
+            , input [ class "query" ] []
+            , div [ class "menu" ] []
+            ]
+        , div [ class "sidebar" ] [ text "sidebar" ]
+        , div [ class "results" ] [ text "results" ]
+        ]
 
 
 
