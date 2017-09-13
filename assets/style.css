@@ -6,6 +6,8 @@ body {
   margin: 0;
   line-height: 1.15;
   font-family: Lato, sans-serif;
+  color: #32363f;
+  background-color: #fff;
 }
 
 .container {
@@ -29,7 +31,6 @@ body {
   padding-left: 3rem;
   font-size: 1.5em;
   font-weight: 400;
-  color: #32363f;
   background: url("icon.svg") no-repeat 1rem;
 }
 .bar h1 strong {
@@ -39,9 +40,9 @@ body {
   width: 32em;
   padding: .3rem;
   font-size: 1.1em;
-  color: #333;
   border: 1px solid #d6d8da;
   border-radius: 2px;
+  color: #32363f;
   background: url("search.svg") no-repeat center right .3rem;
 }
 .bar .query:hover {
@@ -57,4 +58,24 @@ body {
 
 .results {
   flex: 1;
+}
+.results h1 {
+  margin: 1em;
+  font-size: 1.5rem;
+}
+.results ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+}
+.results li {
+  flex: 32em 1 1;
+  margin: 1em;
+  padding: 1em;
+  border: 1px solid #d6d8da;
+  border-radius: 2px;
+  list-style-type: none;
+}
+.results li:hover {
+  background-color: #f5f6f7;
 }
