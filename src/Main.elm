@@ -181,9 +181,9 @@ addressToDiv : Address -> Html Msg
 addressToDiv address =
     div [ class "contact-address" ]
         [ span [ class "field-type" ] [ text "Addresse :" ]
-        , text address.street
-        , text address.postcode
-        , text address.city
+        , text (address.street ++ " ")
+        , text (address.postcode ++ " ")
+        , text (address.city ++ " ")
         , text address.country
         ]
 

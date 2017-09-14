@@ -9306,13 +9306,16 @@ var _nono$cozy_mini$Main$addressToDiv = function (address) {
 				}),
 			_1: {
 				ctor: '::',
-				_0: _elm_lang$html$Html$text(address.street),
+				_0: _elm_lang$html$Html$text(
+					A2(_elm_lang$core$Basics_ops['++'], address.street, ' ')),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(address.postcode),
+					_0: _elm_lang$html$Html$text(
+						A2(_elm_lang$core$Basics_ops['++'], address.postcode, ' ')),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(address.city),
+						_0: _elm_lang$html$Html$text(
+							A2(_elm_lang$core$Basics_ops['++'], address.city, ' ')),
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html$text(address.country),
