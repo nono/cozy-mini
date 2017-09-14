@@ -8,5 +8,13 @@
   "name": "mini-app",
   "permissions": {},
   "slug": "mini",
-  "version": "0.1.0"
+  "version": "0.1.0",
+  "services": {
+	"hello": {
+      "type": "node",
+      "file": "service.js",
+      "trigger": "@event io.cozy.files",
+	  "debounce": "1m"
+    }
+  }
 }
