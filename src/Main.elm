@@ -214,7 +214,11 @@ contactToListItem contact =
             [ ( "background-color", getColor contact.fullname ) ]
 
         children =
-            [ [ h2 [ class "contact-name" ] [ text contact.fullname ] ]
+            [ [ h2 [ class "contact-name" ]
+                    [ div [ (class "contact-avatar"), (style bg) ] [ text initial ]
+                    , span [] [ text contact.fullname ]
+                    ]
+              ]
             , List.map emailToDiv contact.emails
             , List.map addressToDiv contact.addresses
             , List.map phoneToDiv contact.phones

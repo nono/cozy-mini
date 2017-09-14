@@ -9353,6 +9353,16 @@ var _nono$cozy_mini$Main$emailToDiv = function (email) {
 		});
 };
 var _nono$cozy_mini$Main$contactToListItem = function (contact) {
+	var bg = {
+		ctor: '::',
+		_0: {
+			ctor: '_Tuple2',
+			_0: 'background-color',
+			_1: _nono$cozy_mini$ColorHash$getColor(contact.fullname)
+		},
+		_1: {ctor: '[]'}
+	};
+	var initial = A3(_elm_lang$core$String$slice, 0, 1, contact.fullname);
 	var children = {
 		ctor: '::',
 		_0: {
@@ -9366,8 +9376,34 @@ var _nono$cozy_mini$Main$contactToListItem = function (contact) {
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(contact.fullname),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('contact-avatar'),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$style(bg),
+								_1: {ctor: '[]'}
+							}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(initial),
+							_1: {ctor: '[]'}
+						}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(contact.fullname),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {ctor: '[]'}
 		},
@@ -9389,16 +9425,6 @@ var _nono$cozy_mini$Main$contactToListItem = function (contact) {
 			}
 		}
 	};
-	var bg = {
-		ctor: '::',
-		_0: {
-			ctor: '_Tuple2',
-			_0: 'background-color',
-			_1: _nono$cozy_mini$ColorHash$getColor(contact.fullname)
-		},
-		_1: {ctor: '[]'}
-	};
-	var initial = A3(_elm_lang$core$String$slice, 0, 1, contact.fullname);
 	return A2(
 		_elm_lang$html$Html$li,
 		{
