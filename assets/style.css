@@ -60,22 +60,32 @@ body {
   flex: 1;
 }
 .results h1 {
-  margin: 1em;
+  margin: 2rem;
   font-size: 1.5rem;
 }
 .results ul {
   display: flex;
   flex-wrap: wrap;
+  margin: 1rem;
   padding: 0;
 }
 .results li {
-  flex: 32em 1 1;
-  margin: 1em;
-  padding: 1em;
+  flex: 24em 1 1;
+  margin: 1rem;
+  padding: 1rem;
   border: 1px solid #d6d8da;
   border-radius: 2px;
   list-style-type: none;
+  line-height: 1.5;
 }
 .results li:hover {
   background-color: #f5f6f7;
+}
+
+.field-type {
+  display: inline-block;
+  width: 7em;
+  font-size: .7em;
+  color: #92a0b2;
+  text-transform: uppercase;
 }

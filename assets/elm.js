@@ -9113,6 +9113,103 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
+var _nono$cozy_mini$ColorHash$scheme = {
+	ctor: '::',
+	_0: '304FFE',
+	_1: {
+		ctor: '::',
+		_0: '2979FF',
+		_1: {
+			ctor: '::',
+			_0: '00B0FF',
+			_1: {
+				ctor: '::',
+				_0: '00DCE9',
+				_1: {
+					ctor: '::',
+					_0: '00D5B8',
+					_1: {
+						ctor: '::',
+						_0: '00C853',
+						_1: {
+							ctor: '::',
+							_0: 'E70505',
+							_1: {
+								ctor: '::',
+								_0: 'FF5700',
+								_1: {
+									ctor: '::',
+									_0: 'FF7900',
+									_1: {
+										ctor: '::',
+										_0: 'FFA300',
+										_1: {
+											ctor: '::',
+											_0: 'B3C51D',
+											_1: {
+												ctor: '::',
+												_0: '64DD17',
+												_1: {
+													ctor: '::',
+													_0: 'FF2828',
+													_1: {
+														ctor: '::',
+														_0: 'F819AA',
+														_1: {
+															ctor: '::',
+															_0: 'AA00FF',
+															_1: {
+																ctor: '::',
+																_0: '6200EA',
+																_1: {
+																	ctor: '::',
+																	_0: '7190AB',
+																	_1: {
+																		ctor: '::',
+																		_0: '51658D',
+																		_1: {ctor: '[]'}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _nono$cozy_mini$ColorHash$nb = _elm_lang$core$List$length(_nono$cozy_mini$ColorHash$scheme);
+var _nono$cozy_mini$ColorHash$hashCode = function (name) {
+	var hash = F2(
+		function (c, h) {
+			return A2(
+				_elm_lang$core$Basics_ops['%'],
+				(h * 31) + _elm_lang$core$Char$toCode(c),
+				_nono$cozy_mini$ColorHash$nb);
+		});
+	return A3(_elm_lang$core$String$foldl, hash, 0, name);
+};
+var _nono$cozy_mini$ColorHash$getColor = function (name) {
+	var _p0 = _elm_lang$core$List$head(
+		A2(
+			_elm_lang$core$List$drop,
+			_nono$cozy_mini$ColorHash$hashCode(name),
+			_nono$cozy_mini$ColorHash$scheme));
+	if (_p0.ctor === 'Nothing') {
+		return '';
+	} else {
+		return A2(_elm_lang$core$Basics_ops['++'], '#', _p0._0);
+	}
+};
+
 var _nono$cozy_mini$OnEnter$is13 = F2(
 	function (message, code) {
 		return _elm_lang$core$Native_Utils.eq(code, 13) ? _elm_lang$core$Json_Decode$succeed(message) : _elm_lang$core$Json_Decode$fail('not the right key code');
@@ -9127,15 +9224,189 @@ var _nono$cozy_mini$OnEnter$onEnter = function (message) {
 			_elm_lang$html$Html_Events$keyCode));
 };
 
-var _nono$cozy_mini$Main$hitToListItem = function (hit) {
+var _nono$cozy_mini$Main$cozyToDiv = function (cozy) {
 	return A2(
-		_elm_lang$html$Html$li,
-		{ctor: '[]'},
+		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _elm_lang$html$Html$text(hit.id),
+			_0: _elm_lang$html$Html_Attributes$class('contact-cozy'),
 			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('field-type'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Cozy :'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(cozy.url),
+				_1: {ctor: '[]'}
+			}
 		});
+};
+var _nono$cozy_mini$Main$phoneToDiv = function (phone) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('contact-phone'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('field-type'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Téléphone :'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(phone.number),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _nono$cozy_mini$Main$addressToDiv = function (address) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('contact-address'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('field-type'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Addresse :'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(address.street),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(address.postcode),
+					_1: {
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(address.city),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(address.country),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+var _nono$cozy_mini$Main$emailToDiv = function (email) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('contact-email'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('field-type'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text('Courriel :'),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(email.address),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _nono$cozy_mini$Main$contactToListItem = function (contact) {
+	var children = {
+		ctor: '::',
+		_0: {
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$h2,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class('contact-name'),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(contact.fullname),
+					_1: {ctor: '[]'}
+				}),
+			_1: {ctor: '[]'}
+		},
+		_1: {
+			ctor: '::',
+			_0: A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$emailToDiv, contact.emails),
+			_1: {
+				ctor: '::',
+				_0: A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$addressToDiv, contact.addresses),
+				_1: {
+					ctor: '::',
+					_0: A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$phoneToDiv, contact.phones),
+					_1: {
+						ctor: '::',
+						_0: A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$cozyToDiv, contact.cozys),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		}
+	};
+	var bg = {
+		ctor: '::',
+		_0: {
+			ctor: '_Tuple2',
+			_0: 'background-color',
+			_1: _nono$cozy_mini$ColorHash$getColor(contact.fullname)
+		},
+		_1: {ctor: '[]'}
+	};
+	var initial = A3(_elm_lang$core$String$slice, 0, 1, contact.fullname);
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('contact'),
+			_1: {ctor: '[]'}
+		},
+		_elm_lang$core$List$concat(children));
 };
 var _nono$cozy_mini$Main$results = function (model) {
 	var _p0 = model.results;
@@ -9187,7 +9458,7 @@ var _nono$cozy_mini$Main$results = function (model) {
 					_0: A2(
 						_elm_lang$html$Html$ul,
 						{ctor: '[]'},
-						A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$hitToListItem, _p1.hits)),
+						A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$contactToListItem, _p1.hits)),
 					_1: {ctor: '[]'}
 				}
 			});
@@ -9212,26 +9483,100 @@ var _nono$cozy_mini$Main$init = {
 	_0: {query: '', results: _elm_lang$core$Maybe$Nothing},
 	_1: _elm_lang$core$Platform_Cmd$none
 };
-var _nono$cozy_mini$Main$Hit = function (a) {
-	return {id: a};
+var _nono$cozy_mini$Main$Email = function (a) {
+	return {address: a};
 };
-var _nono$cozy_mini$Main$decodeHit = A3(
+var _nono$cozy_mini$Main$decodeEmail = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'id',
+	'address',
 	_elm_lang$core$Json_Decode$string,
-	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Hit));
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Email));
+var _nono$cozy_mini$Main$Address = F4(
+	function (a, b, c, d) {
+		return {street: a, city: b, postcode: c, country: d};
+	});
+var _nono$cozy_mini$Main$decodeAddress = A4(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+	'country',
+	_elm_lang$core$Json_Decode$string,
+	'',
+	A4(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		'post_code',
+		_elm_lang$core$Json_Decode$string,
+		'',
+		A4(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			'city',
+			_elm_lang$core$Json_Decode$string,
+			'',
+			A4(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+				'street',
+				_elm_lang$core$Json_Decode$string,
+				'',
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Address)))));
+var _nono$cozy_mini$Main$Phone = function (a) {
+	return {number: a};
+};
+var _nono$cozy_mini$Main$decodePhone = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'number',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Phone));
+var _nono$cozy_mini$Main$Cozy = function (a) {
+	return {url: a};
+};
+var _nono$cozy_mini$Main$decodeCozy = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'url',
+	_elm_lang$core$Json_Decode$string,
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Cozy));
+var _nono$cozy_mini$Main$Contact = F6(
+	function (a, b, c, d, e, f) {
+		return {id: a, fullname: b, emails: c, addresses: d, phones: e, cozys: f};
+	});
+var _nono$cozy_mini$Main$decodeContact = A4(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+	'cozy',
+	_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeCozy),
+	{ctor: '[]'},
+	A4(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+		'phone',
+		_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodePhone),
+		{ctor: '[]'},
+		A4(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+			'address',
+			_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeAddress),
+			{ctor: '[]'},
+			A4(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$optional,
+				'email',
+				_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeEmail),
+				{ctor: '[]'},
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'fullname',
+					_elm_lang$core$Json_Decode$string,
+					A3(
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+						'_id',
+						_elm_lang$core$Json_Decode$string,
+						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Contact)))))));
 var _nono$cozy_mini$Main$Results = F2(
 	function (a, b) {
 		return {hits: a, total: b};
 	});
 var _nono$cozy_mini$Main$decodeResults = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'total_hits',
+	'total',
 	_elm_lang$core$Json_Decode$int,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 		'hits',
-		_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeHit),
+		_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeContact),
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Results)));
 var _nono$cozy_mini$Main$Model = F2(
 	function (a, b) {
