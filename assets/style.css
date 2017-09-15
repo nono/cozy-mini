@@ -118,7 +118,7 @@ body {
   background-color: #f5f6f7;
 }
 
-.contact-name {
+.contact-name, .file-name {
   display: flex;
   align-items: center;
   margin: .5rem 0;
@@ -134,7 +134,8 @@ body {
   font-weight: bold;
   color: white;
 }
-.contact-email, .contact-address, .contact-phone, .contact-cozy {
+.contact-email, .contact-address, .contact-phone, .contact-cozy,
+.file-size, .file-updated {
   margin-left: 3.5rem;
 }
 .field-type {
@@ -143,4 +144,46 @@ body {
   font-size: .7em;
   color: #92a0b2;
   text-transform: uppercase;
+}
+
+.file-type {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin: 0 1rem 0 0;
+}
+.file-audio {
+  background: url("icon-type-audio.svg") no-repeat center center;
+}
+.file-bin {
+  background: url("icon-type-bin.svg") no-repeat center center;
+}
+.file-code {
+  background: url("icon-type-image.svg") no-repeat center center;
+}
+.file-files {
+  background: url("icon-type-files.svg") no-repeat center center;
+}
+.file-folder {
+  background: url("icon-type-folder.svg") no-repeat center center;
+}
+.file-image {
+  background: url("icon-type-image.svg") no-repeat center center;
+}
+.file-pdf {
+  background: url("icon-type-pdf.svg") no-repeat center center;
+}
+.file-sheet {
+  background: url("icon-type-sheet.svg") no-repeat center center;
+}
+.file-slide {
+  background: url("icon-type-slide.svg") no-repeat center center;
+}
+.file-text {
+  background: url("icon-type-text.svg") no-repeat center center;
+}
+.file-video {
+  background: url("icon-type-video.svg") no-repeat center center;
+}
+.file-zip {
+  background: url("icon-type-zip.svg") no-repeat center center;
 }

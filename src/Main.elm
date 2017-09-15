@@ -9,6 +9,7 @@ import Html.Attributes exposing (class, classList, value, style)
 import Html.Events exposing (onInput, onClick)
 import OnEnter exposing (onEnter)
 import ColorHash exposing (getColor)
+import Helpers exposing (diskSize)
 
 
 ---- MODEL ----
@@ -90,6 +91,7 @@ type alias File =
     , class : String
     , name : String
     , size : String
+    , updated : String
     }
 
 
@@ -100,6 +102,7 @@ decodeFile =
         |> required "class" Json.Decode.string
         |> required "name" Json.Decode.string
         |> required "size" Json.Decode.string
+        |> required "updated_at" Json.Decode.string
 
 
 type Hits
@@ -313,9 +316,18 @@ contactToListItem contact =
 fileToListItem : File -> Html Msg
 fileToListItem file =
     li [ class "file" ]
-        [ div [ class ("file-" ++ file.class) ] [ text file.class ]
-        , div [ class "file-name" ] [ text file.name ]
-        , div [ class "file-size" ] [ text file.size ]
+        [ h2 [ class "file-name" ]
+            [ div [ class ("file-type file-" ++ file.class) ] []
+            , span [] [ text file.name ]
+            ]
+        , div [ class "file-size" ]
+            [ span [ class "field-type" ] [ text "Taille :" ]
+            , text (diskSize file.size)
+            ]
+        , div [ class "file-updated" ]
+            [ span [ class "field-type" ] [ text "Mise à jour :" ]
+            , text (String.slice 0 10 file.updated)
+            ]
         ]
 
 

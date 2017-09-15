@@ -9210,6 +9210,40 @@ var _nono$cozy_mini$ColorHash$getColor = function (name) {
 	}
 };
 
+var _nono$cozy_mini$Helpers$diskSize = function (raw) {
+	var _p0 = _elm_lang$core$String$toInt(raw);
+	if (_p0.ctor === 'Err') {
+		return 'inconnue';
+	} else {
+		var _p1 = _p0._0;
+		return (_elm_lang$core$Native_Utils.cmp(
+			_p1,
+			Math.pow(10, 3)) < 0) ? A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(_p1),
+			' B') : ((_elm_lang$core$Native_Utils.cmp(
+			_p1,
+			Math.pow(10, 6)) < 0) ? A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toFloat(
+					(_p1 / Math.pow(10, 2)) | 0) / 10),
+			' KB') : ((_elm_lang$core$Native_Utils.cmp(
+			_p1,
+			Math.pow(10, 9)) < 0) ? A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toFloat(
+					(_p1 / Math.pow(10, 5)) | 0) / 10),
+			' MB') : A2(
+			_elm_lang$core$Basics_ops['++'],
+			_elm_lang$core$Basics$toString(
+				_elm_lang$core$Basics$toFloat(
+					(_p1 / Math.pow(10, 9)) | 0) / 10),
+			' GB')));
+	}
+};
+
 var _nono$cozy_mini$OnEnter$is13 = F2(
 	function (message, code) {
 		return _elm_lang$core$Native_Utils.eq(code, 13) ? _elm_lang$core$Json_Decode$succeed(message) : _elm_lang$core$Json_Decode$fail('not the right key code');
@@ -9235,17 +9269,35 @@ var _nono$cozy_mini$Main$fileToListItem = function (file) {
 		{
 			ctor: '::',
 			_0: A2(
-				_elm_lang$html$Html$div,
+				_elm_lang$html$Html$h2,
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(
-						A2(_elm_lang$core$Basics_ops['++'], 'file-', file.$class)),
+					_0: _elm_lang$html$Html_Attributes$class('file-name'),
 					_1: {ctor: '[]'}
 				},
 				{
 					ctor: '::',
-					_0: _elm_lang$html$Html$text(file.$class),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class(
+								A2(_elm_lang$core$Basics_ops['++'], 'file-type file-', file.$class)),
+							_1: {ctor: '[]'}
+						},
+						{ctor: '[]'}),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(file.name),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
 				}),
 			_1: {
 				ctor: '::',
@@ -9253,13 +9305,29 @@ var _nono$cozy_mini$Main$fileToListItem = function (file) {
 					_elm_lang$html$Html$div,
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html_Attributes$class('file-name'),
+						_0: _elm_lang$html$Html_Attributes$class('file-size'),
 						_1: {ctor: '[]'}
 					},
 					{
 						ctor: '::',
-						_0: _elm_lang$html$Html$text(file.name),
-						_1: {ctor: '[]'}
+						_0: A2(
+							_elm_lang$html$Html$span,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$class('field-type'),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Taille :'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(
+								_nono$cozy_mini$Helpers$diskSize(file.size)),
+							_1: {ctor: '[]'}
+						}
 					}),
 				_1: {
 					ctor: '::',
@@ -9267,13 +9335,29 @@ var _nono$cozy_mini$Main$fileToListItem = function (file) {
 						_elm_lang$html$Html$div,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Attributes$class('file-size'),
+							_0: _elm_lang$html$Html_Attributes$class('file-updated'),
 							_1: {ctor: '[]'}
 						},
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html$text(file.size),
-							_1: {ctor: '[]'}
+							_0: A2(
+								_elm_lang$html$Html$span,
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html_Attributes$class('field-type'),
+									_1: {ctor: '[]'}
+								},
+								{
+									ctor: '::',
+									_0: _elm_lang$html$Html$text('Mise à jour :'),
+									_1: {ctor: '[]'}
+								}),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html$text(
+									A3(_elm_lang$core$String$slice, 0, 10, file.updated)),
+								_1: {ctor: '[]'}
+							}
 						}),
 					_1: {ctor: '[]'}
 				}
@@ -9642,27 +9726,31 @@ var _nono$cozy_mini$Main$decodeContact = A4(
 						'_id',
 						_elm_lang$core$Json_Decode$string,
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Contact)))))));
-var _nono$cozy_mini$Main$File = F4(
-	function (a, b, c, d) {
-		return {id: a, $class: b, name: c, size: d};
+var _nono$cozy_mini$Main$File = F5(
+	function (a, b, c, d, e) {
+		return {id: a, $class: b, name: c, size: d, updated: e};
 	});
 var _nono$cozy_mini$Main$decodeFile = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-	'size',
+	'updated_at',
 	_elm_lang$core$Json_Decode$string,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-		'name',
+		'size',
 		_elm_lang$core$Json_Decode$string,
 		A3(
 			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-			'class',
+			'name',
 			_elm_lang$core$Json_Decode$string,
 			A3(
 				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
-				'_id',
+				'class',
 				_elm_lang$core$Json_Decode$string,
-				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$File)))));
+				A3(
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+					'_id',
+					_elm_lang$core$Json_Decode$string,
+					_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$File))))));
 var _nono$cozy_mini$Main$Results = F2(
 	function (a, b) {
 		return {hits: a, total: b};
