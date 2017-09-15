@@ -9224,6 +9224,62 @@ var _nono$cozy_mini$OnEnter$onEnter = function (message) {
 			_elm_lang$html$Html_Events$keyCode));
 };
 
+var _nono$cozy_mini$Main$fileToListItem = function (file) {
+	return A2(
+		_elm_lang$html$Html$li,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('file'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(
+						A2(_elm_lang$core$Basics_ops['++'], 'file-', file.$class)),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(file.$class),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('file-name'),
+						_1: {ctor: '[]'}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text(file.name),
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$div,
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$class('file-size'),
+							_1: {ctor: '[]'}
+						},
+						{
+							ctor: '::',
+							_0: _elm_lang$html$Html$text(file.size),
+							_1: {ctor: '[]'}
+						}),
+					_1: {ctor: '[]'}
+				}
+			}
+		});
+};
 var _nono$cozy_mini$Main$cozyToDiv = function (cozy) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9437,9 +9493,23 @@ var _nono$cozy_mini$Main$contactToListItem = function (contact) {
 		},
 		_elm_lang$core$List$concat(children));
 };
+var _nono$cozy_mini$Main$hitsToList = function (hits) {
+	var _p0 = hits;
+	if (_p0.ctor === 'Contacts') {
+		return A2(
+			_elm_lang$html$Html$ul,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$contactToListItem, _p0._0));
+	} else {
+		return A2(
+			_elm_lang$html$Html$ul,
+			{ctor: '[]'},
+			A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$fileToListItem, _p0._0));
+	}
+};
 var _nono$cozy_mini$Main$results = function (model) {
-	var _p0 = model.results;
-	if (_p0.ctor === 'Nothing') {
+	var _p1 = model.results;
+	if (_p1.ctor === 'Nothing') {
 		return A2(
 			_elm_lang$html$Html$div,
 			{
@@ -9460,7 +9530,7 @@ var _nono$cozy_mini$Main$results = function (model) {
 				_1: {ctor: '[]'}
 			});
 	} else {
-		var _p1 = _p0._0;
+		var _p2 = _p1._0;
 		return A2(
 			_elm_lang$html$Html$div,
 			{
@@ -9478,39 +9548,17 @@ var _nono$cozy_mini$Main$results = function (model) {
 						_0: _elm_lang$html$Html$text(
 							A2(
 								_elm_lang$core$Basics_ops['++'],
-								_elm_lang$core$Basics$toString(_p1.total),
+								_elm_lang$core$Basics$toString(_p2.total),
 								' résultats')),
 						_1: {ctor: '[]'}
 					}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$ul,
-						{ctor: '[]'},
-						A2(_elm_lang$core$List$map, _nono$cozy_mini$Main$contactToListItem, _p1.hits)),
+					_0: _nono$cozy_mini$Main$hitsToList(_p2.hits),
 					_1: {ctor: '[]'}
 				}
 			});
 	}
-};
-var _nono$cozy_mini$Main$sidebar = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('sidebar'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text(''),
-			_1: {ctor: '[]'}
-		});
-};
-var _nono$cozy_mini$Main$init = {
-	ctor: '_Tuple2',
-	_0: {query: '', results: _elm_lang$core$Maybe$Nothing},
-	_1: _elm_lang$core$Platform_Cmd$none
 };
 var _nono$cozy_mini$Main$Email = function (a) {
 	return {address: a};
@@ -9594,44 +9642,192 @@ var _nono$cozy_mini$Main$decodeContact = A4(
 						'_id',
 						_elm_lang$core$Json_Decode$string,
 						_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Contact)))))));
+var _nono$cozy_mini$Main$File = F4(
+	function (a, b, c, d) {
+		return {id: a, $class: b, name: c, size: d};
+	});
+var _nono$cozy_mini$Main$decodeFile = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'size',
+	_elm_lang$core$Json_Decode$string,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'name',
+		_elm_lang$core$Json_Decode$string,
+		A3(
+			_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+			'class',
+			_elm_lang$core$Json_Decode$string,
+			A3(
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+				'_id',
+				_elm_lang$core$Json_Decode$string,
+				_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$File)))));
 var _nono$cozy_mini$Main$Results = F2(
 	function (a, b) {
 		return {hits: a, total: b};
 	});
-var _nono$cozy_mini$Main$decodeResults = A3(
+var _nono$cozy_mini$Main$Model = F3(
+	function (a, b, c) {
+		return {doctype: a, query: b, results: c};
+	});
+var _nono$cozy_mini$Main$Files = function (a) {
+	return {ctor: 'Files', _0: a};
+};
+var _nono$cozy_mini$Main$decodeFilesResults = A3(
 	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 	'total',
 	_elm_lang$core$Json_Decode$int,
 	A3(
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
 		'hits',
-		_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeContact),
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (a) {
+				return _nono$cozy_mini$Main$Files(a);
+			},
+			_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeFile)),
 		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Results)));
-var _nono$cozy_mini$Main$Model = F2(
-	function (a, b) {
-		return {query: a, results: b};
+var _nono$cozy_mini$Main$Contacts = function (a) {
+	return {ctor: 'Contacts', _0: a};
+};
+var _nono$cozy_mini$Main$decodeContactsResults = A3(
+	_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+	'total',
+	_elm_lang$core$Json_Decode$int,
+	A3(
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$required,
+		'hits',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (a) {
+				return _nono$cozy_mini$Main$Contacts(a);
+			},
+			_elm_lang$core$Json_Decode$list(_nono$cozy_mini$Main$decodeContact)),
+		_NoRedInk$elm_decode_pipeline$Json_Decode_Pipeline$decode(_nono$cozy_mini$Main$Results)));
+var _nono$cozy_mini$Main$ChangeDoctype = function (a) {
+	return {ctor: 'ChangeDoctype', _0: a};
+};
+var _nono$cozy_mini$Main$doctypeSelector = F3(
+	function (label, doctype, model) {
+		return A2(
+			_elm_lang$html$Html$a,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$classList(
+					{
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: A2(_elm_lang$core$Basics_ops['++'], 'doctype-', doctype),
+							_1: true
+						},
+						_1: {
+							ctor: '::',
+							_0: {
+								ctor: '_Tuple2',
+								_0: 'doctype-selected',
+								_1: _elm_lang$core$Native_Utils.eq(doctype, model.doctype)
+							},
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html_Events$onClick(
+						_nono$cozy_mini$Main$ChangeDoctype(doctype)),
+					_1: {ctor: '[]'}
+				}
+			},
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$div,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$class('icon'),
+						_1: {ctor: '[]'}
+					},
+					{ctor: '[]'}),
+				_1: {
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(label),
+					_1: {ctor: '[]'}
+				}
+			});
 	});
+var _nono$cozy_mini$Main$sidebar = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('sidebar'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: A3(_nono$cozy_mini$Main$doctypeSelector, 'Contacts', 'contacts', model),
+			_1: {
+				ctor: '::',
+				_0: A3(_nono$cozy_mini$Main$doctypeSelector, 'Fichiers', 'files', model),
+				_1: {ctor: '[]'}
+			}
+		});
+};
 var _nono$cozy_mini$Main$UpdateResults = function (a) {
 	return {ctor: 'UpdateResults', _0: a};
 };
 var _nono$cozy_mini$Main$search = function (model) {
-	var q = A3(_elm_lang$core$Debug$log, 'q', _elm_lang$http$Http$encodeUri, model.query);
-	var uri = A2(_elm_lang$core$Basics_ops['++'], 'http://cozy.tools:8080/search/io.cozy.contacts?q=', q);
+	var decoder = function () {
+		var _p3 = model.doctype;
+		switch (_p3) {
+			case 'contacts':
+				return _nono$cozy_mini$Main$decodeContactsResults;
+			case 'files':
+				return _nono$cozy_mini$Main$decodeFilesResults;
+			default:
+				return _nono$cozy_mini$Main$decodeFilesResults;
+		}
+	}();
+	var query = function () {
+		var _p4 = model.query;
+		if (_p4 === '') {
+			return '*';
+		} else {
+			return model.query;
+		}
+	}();
+	var q = A3(_elm_lang$core$Debug$log, 'q', _elm_lang$http$Http$encodeUri, query);
+	var uri = A2(
+		_elm_lang$core$Basics_ops['++'],
+		'http://cozy.tools:8080/search/io.cozy.',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			model.doctype,
+			A2(_elm_lang$core$Basics_ops['++'], '?q=', q)));
 	return A2(
 		_elm_lang$http$Http$send,
 		_nono$cozy_mini$Main$UpdateResults,
-		A2(_elm_lang$http$Http$get, uri, _nono$cozy_mini$Main$decodeResults));
+		A2(_elm_lang$http$Http$get, uri, decoder));
 };
+var _nono$cozy_mini$Main$init = function () {
+	var model = {doctype: 'contacts', query: '', results: _elm_lang$core$Maybe$Nothing};
+	return {
+		ctor: '_Tuple2',
+		_0: model,
+		_1: _nono$cozy_mini$Main$search(model)
+	};
+}();
 var _nono$cozy_mini$Main$update = F2(
 	function (msg, model) {
-		var _p2 = A2(_elm_lang$core$Debug$log, 'msg', msg);
-		switch (_p2.ctor) {
+		var _p5 = A2(_elm_lang$core$Debug$log, 'msg', msg);
+		switch (_p5.ctor) {
 			case 'UpdateQuery':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{query: _p2._0}),
+						{query: _p5._0}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'Search':
@@ -9640,14 +9836,14 @@ var _nono$cozy_mini$Main$update = F2(
 					_0: model,
 					_1: _nono$cozy_mini$Main$search(model)
 				};
-			default:
-				if (_p2._0.ctor === 'Ok') {
+			case 'UpdateResults':
+				if (_p5._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								results: _elm_lang$core$Maybe$Just(_p2._0._0)
+								results: _elm_lang$core$Maybe$Just(_p5._0._0)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9660,6 +9856,15 @@ var _nono$cozy_mini$Main$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
+			default:
+				var newModel = _elm_lang$core$Native_Utils.update(
+					model,
+					{doctype: _p5._0});
+				return {
+					ctor: '_Tuple2',
+					_0: newModel,
+					_1: _nono$cozy_mini$Main$search(newModel)
+				};
 		}
 	});
 var _nono$cozy_mini$Main$Search = {ctor: 'Search'};

@@ -50,10 +50,46 @@ body {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   width: 15rem;
   height: 100%;
+  padding: 1.5em 0;
   border-right: 1px solid #d6d8da;
   background-color: #f5f6f7;
+}
+.sidebar a {
+  display: block;
+  opacity: .5;
+  width: 90%;
+  height: 3em;
+  line-height: 3em;
+}
+.sidebar a:hover {
+  opacity: .9;
+  color: #32363f;
+  background: silver;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+}
+.sidebar .doctype-selected {
+  opacity: 1;
+  box-shadow: inset 4px 0 0 0 #297ef2;
+  font-weight: 700;
+}
+.sidebar .doctype-selected:hover {
+  opacity: 1;
+}
+.icon {
+  float: left;
+  width: 4rem;
+  height: 3rem;
+}
+.doctype-contacts .icon {
+  background: url("contact.svg") no-repeat center left 1.5rem;
+}
+.doctype-files .icon {
+  background: url("file.svg") no-repeat center left 1.5rem;
 }
 
 .results {

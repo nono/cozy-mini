@@ -4,9 +4,9 @@ import Debug exposing (log)
 import Http
 import Json.Decode
 import Json.Decode.Pipeline exposing (decode, required, optional)
-import Html exposing (Html, text, div, h1, h2, span, strong, input, ul, li)
-import Html.Attributes exposing (class, value, style)
-import Html.Events exposing (onInput)
+import Html exposing (Html, text, div, h1, h2, span, strong, input, ul, li, a)
+import Html.Attributes exposing (class, classList, value, style)
+import Html.Events exposing (onInput, onClick)
 import OnEnter exposing (onEnter)
 import ColorHash exposing (getColor)
 
@@ -85,28 +85,62 @@ decodeContact =
         |> optional "cozy" (Json.Decode.list decodeCozy) []
 
 
+type alias File =
+    { id : String
+    , class : String
+    , name : String
+    , size : String
+    }
+
+
+decodeFile : Json.Decode.Decoder File
+decodeFile =
+    decode File
+        |> required "_id" Json.Decode.string
+        |> required "class" Json.Decode.string
+        |> required "name" Json.Decode.string
+        |> required "size" Json.Decode.string
+
+
+type Hits
+    = Contacts (List Contact)
+    | Files (List File)
+
+
 type alias Results =
-    { hits : List Contact
+    { hits : Hits
     , total : Int
     }
 
 
-decodeResults : Json.Decode.Decoder Results
-decodeResults =
+decodeFilesResults : Json.Decode.Decoder Results
+decodeFilesResults =
     decode Results
-        |> required "hits" (Json.Decode.list decodeContact)
+        |> required "hits" (Json.Decode.map (\a -> Files a) (Json.Decode.list decodeFile))
+        |> required "total" Json.Decode.int
+
+
+decodeContactsResults : Json.Decode.Decoder Results
+decodeContactsResults =
+    decode Results
+        |> required "hits" (Json.Decode.map (\a -> Contacts a) (Json.Decode.list decodeContact))
         |> required "total" Json.Decode.int
 
 
 type alias Model =
-    { query : String
+    { doctype : String
+    , query : String
     , results : Maybe Results
     }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( { query = "", results = Nothing }, Cmd.none )
+    let
+        model =
+            { doctype = "contacts", query = "", results = Nothing }
+    in
+        ( model, search model )
 
 
 
@@ -117,18 +151,42 @@ type Msg
     = UpdateQuery String
     | Search
     | UpdateResults (Result Http.Error Results)
+    | ChangeDoctype String
 
 
 search : Model -> Cmd Msg
 search model =
     let
+        query =
+            case
+                model.query
+            of
+                "" ->
+                    "*"
+
+                _ ->
+                    model.query
+
         q =
-            log "q" Http.encodeUri model.query
+            log "q" Http.encodeUri query
 
         uri =
-            "http://cozy.tools:8080/search/io.cozy.contacts?q=" ++ q
+            "http://cozy.tools:8080/search/io.cozy." ++ model.doctype ++ "?q=" ++ q
+
+        decoder =
+            case
+                model.doctype
+            of
+                "contacts" ->
+                    decodeContactsResults
+
+                "files" ->
+                    decodeFilesResults
+
+                _ ->
+                    decodeFilesResults
     in
-        Http.send UpdateResults <| Http.get uri decodeResults
+        Http.send UpdateResults <| Http.get uri decoder
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -148,6 +206,13 @@ update msg model =
         UpdateResults (Err _) ->
             ( { model | results = Nothing }, Cmd.none )
 
+        ChangeDoctype doctype ->
+            let
+                newModel =
+                    { model | doctype = doctype }
+            in
+                ( newModel, search newModel )
+
 
 
 ---- VIEW ----
@@ -164,9 +229,26 @@ query model =
         []
 
 
+doctypeSelector : String -> String -> Model -> Html Msg
+doctypeSelector label doctype model =
+    a
+        [ classList
+            [ ( "doctype-" ++ doctype, True )
+            , ( "doctype-selected", doctype == model.doctype )
+            ]
+        , onClick (ChangeDoctype doctype)
+        ]
+        [ div [ class "icon" ] []
+        , text label
+        ]
+
+
 sidebar : Model -> Html Msg
 sidebar model =
-    div [ class "sidebar" ] [ text "" ]
+    div [ class "sidebar" ]
+        [ doctypeSelector "Contacts" "contacts" model
+        , doctypeSelector "Fichiers" "files" model
+        ]
 
 
 emailToDiv : Email -> Html Msg
@@ -228,6 +310,27 @@ contactToListItem contact =
         li [ class "contact" ] (List.concat children)
 
 
+fileToListItem : File -> Html Msg
+fileToListItem file =
+    li [ class "file" ]
+        [ div [ class ("file-" ++ file.class) ] [ text file.class ]
+        , div [ class "file-name" ] [ text file.name ]
+        , div [ class "file-size" ] [ text file.size ]
+        ]
+
+
+hitsToList : Hits -> Html Msg
+hitsToList hits =
+    case
+        hits
+    of
+        Contacts contacts ->
+            ul [] (List.map contactToListItem contacts)
+
+        Files files ->
+            ul [] (List.map fileToListItem files)
+
+
 results : Model -> Html Msg
 results model =
     case
@@ -240,7 +343,7 @@ results model =
         Just results ->
             div [ class "results" ]
                 [ h1 [] [ text ((toString results.total) ++ " résultats") ]
-                , ul [] (List.map contactToListItem results.hits)
+                , hitsToList results.hits
                 ]
 
 
